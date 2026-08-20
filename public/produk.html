@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produk — Nifara Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/index.html" class="brand"><span data-brand-main>NIFARA</span> <em data-brand-accent>STORE</em></a>
+      <div class="nav-links">
+        <a href="/produk.html" data-nav="produk">Produk</a>
+        <a href="/cara-order.html" data-nav="alur">Cara Order</a>
+        <a href="/pembayaran.html" data-nav="bayar">Pembayaran</a>
+      </div>
+      <a href="#" target="_blank" rel="noopener" class="btn btn-brass" data-nav-cta>Buka di Telegram</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="wrap">
+      <div class="eyebrow">Katalog</div>
+    </div>
+  </div>
+
+  <section id="produk">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-t="produkTitle">Produk pilihan</h2>
+        <p data-t="produkDesc">Contoh katalog dari data produk di bot.</p>
+      </div>
+
+      <div class="products" id="productList">
+        <div class="loading-hint">Memuat produk…</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap" data-footer-text>© Nifara Store 2026</div>
+  </footer>
+
+  <script src="/site.js"></script>
+  <script>
+    (async function () {
+      const list = document.getElementById('productList');
+      try {
+        const data = await loadSiteData();
+        renderChrome(data, 'produk', 'Produk');
+        const t = data.texts || {};
+        document.querySelectorAll('[data-t]').forEach((el) => {
+          const key = el.getAttribute('data-t');
+          if (t[key] != null) el.textContent = t[key];
+        });
+
+        const products = data.products || [];
+        if (!products.length) {
+          list.innerHTML = '<div class="loading-hint">Belum ada produk.</div>';
+          return;
+        }
+        const swatchClasses = ['s1', 's2', 's3'];
+        list.innerHTML = products.map((p, i) => {
+          const glyph = escapeHtml((p.name || '?').trim().replace(/^[^A-Za-z0-9]+/, '').slice(0, 2) || '??');
+          const swatchClass = swatchClasses[i % swatchClasses.length];
+          const media = p.photo
+            ? `<img src="${p.photo}" alt="${escapeHtml(p.name)}">`
+            : `<span class="glyph">${glyph}</span>`;
+          return `
+            <div class="pcard">
+              <div class="swatch ${swatchClass}">
+                ${media}
+                <span class="stock-pill${/terbatas|habis/i.test(p.stock || '') ? ' low' : ''}">${escapeHtml(p.stock || '')}</span>
+              </div>
+              <div class="body">
+                <h3>${escapeHtml(p.name)}</h3>
+                <p class="desc">${escapeHtml(p.desc || '')}</p>
+                <div class="foot">
+                  <a href="#" target="_blank" rel="noopener" class="order-link" data-tg-link>${escapeHtml(t.produkOrderLabel || 'Pesan sekarang')}</a>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+
+        // Pastikan tombol pesan yang baru dirender ikut terpasang link bot.
+        renderChrome(data, 'produk', 'Produk');
+      } catch (err) {
+        console.error(err);
+        list.innerHTML = '<div class="loading-hint">Gagal memuat produk.</div>';
+      }
+    })();
+  </script>
+</body>
+</html>
