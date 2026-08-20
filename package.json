@@ -1,0 +1,16 @@
+{
+  "name": "atelier-nara-store",
+  "version": "1.0.0",
+  "description": "Telegram Store Bot + Web Storefront (1 project, 1 deploy)",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-telegram-bot-api": "^0.66.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
