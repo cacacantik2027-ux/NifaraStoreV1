@@ -1,0 +1,12 @@
+{
+  "name": "atelier-nara-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Halaman web etalase Atelier Nara — dihosting statis di Railway",
+  "scripts": {
+    "start": "serve -s public -l ${PORT:-3000}"
+  },
+  "dependencies": {
+    "serve": "^14.2.3"
+  }
+}
