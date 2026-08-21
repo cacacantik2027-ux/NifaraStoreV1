@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nifara Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/index.html" class="brand"><span data-brand-main>NIFARA</span> <em data-brand-accent>STORE</em></a>
+      <div class="nav-links">
+        <a href="/produk.html" data-nav="produk">Produk</a>
+        <a href="/cara-order.html" data-nav="alur">Cara Order</a>
+        <a href="/pembayaran.html" data-nav="bayar">Pembayaran</a>
+      </div>
+      <a href="#" target="_blank" rel="noopener" class="btn btn-brass" data-nav-cta>Buka di Telegram</a>
+      <button type="button" class="nav-toggle" data-nav-toggle aria-label="Buka menu">☰</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow" data-t="heroEyebrow">Toko resmi · layanan lewat Telegram</div>
+        <h1>
+          <span data-t="heroTitleLine1">Belanja jadi</span><br>
+          <span class="accent" data-t="heroTitleAccent">percakapan</span><span data-t="heroTitleLine2">, bukan formulir.</span>
+        </h1>
+        <p class="lede" data-t="heroLede">Pilih produk, chat langsung dengan admin, kirim bukti transfer, isi alamat — semua dalam satu ruang obrolan yang sama.</p>
+        <div class="hero-ctas">
+          <a href="#" target="_blank" rel="noopener" class="btn btn-brass" data-tg-link data-t="heroCta1">💬 Mulai Chat Bot</a>
+          <a href="/produk.html" class="btn btn-ghost" data-t="heroCta2">Lihat Produk</a>
+        </div>
+        <div class="hero-meta">
+          <div><b data-t="heroMeta1Value">3</b><span data-t="heroMeta1Label">kategori produk</span></div>
+          <div><b data-t="heroMeta2Value">8</b><span data-t="heroMeta2Label">metode bayar</span></div>
+          <div><b data-t="heroMeta3Value">9</b><span data-t="heroMeta3Label">langkah, tuntas</span></div>
+        </div>
+      </div>
+
+      <div class="phone-stage">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-avatar" data-avatar-initial>N</div>
+              <div>
+                <b data-t="phoneName">Nifara Store</b>
+                <span data-t="phoneStatus">online · admin membalas cepat</span>
+              </div>
+            </div>
+            <div class="bubble bot"><span class="tag">bot</span><span data-t="phoneBubble1"></span></div>
+            <div class="bubble me" data-t="phoneBubble2"></div>
+            <div class="bubble bot"><span class="tag">bot</span><span data-t="phoneBubble3"></span></div>
+            <div class="bubble me" data-t="phoneBubble4"></div>
+            <div class="bubble bot"><span class="tag">admin</span><span data-t="phoneBubble5"></span></div>
+            <div class="phone-input">
+              <div class="field"></div>
+              <div class="send">➤</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="cta-final">
+    <div class="wrap">
+      <div class="eyebrow" data-t="ctaEyebrow">Siap coba?</div>
+      <h2 data-t="ctaTitle">Semua transaksi tetap berjalan di ruang obrolan yang sudah Anda kenal.</h2>
+      <p data-t="ctaDesc">Halaman ini hanya etalase — pemesanan sesungguhnya tetap terjadi di dalam Telegram.</p>
+      <a href="#" target="_blank" rel="noopener" class="btn btn-brass" data-tg-link data-t="ctaButton">💬 Buka Bot di Telegram</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap" data-footer-text>© Nifara Store 2026</div>
+  </footer>
+
+  <script src="/site.js"></script>
+  <script>
+    (async function () {
+      try {
+        const data = await loadSiteData();
+        const t = data.texts || {};
+        renderChrome(data, 'home', 'Toko Resmi di Telegram');
+        document.querySelectorAll('[data-t]').forEach((el) => {
+          const key = el.getAttribute('data-t');
+          if (t[key] != null) el.textContent = t[key];
+        });
+        const initialEl = document.querySelector('[data-avatar-initial]');
+        if (initialEl) initialEl.textContent = (t.phoneName || data.storeName || 'N').trim().charAt(0).toUpperCase();
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

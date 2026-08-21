@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nifara Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <div class="welcome-screen">
+    <div class="welcome-mark" data-brand-mark>NIFARA STORE</div>
+    <div class="welcome-type" id="typeTarget"><span class="cursor">&nbsp;</span></div>
+    <a href="/index.html" class="welcome-skip" id="skipLink">Lewati</a>
+  </div>
+
+  <script src="/site.js"></script>
+  <script>
+    (async function () {
+      const typeTarget = document.getElementById('typeTarget');
+      const skipLink   = document.getElementById('skipLink');
+      const markEl     = document.querySelector('[data-brand-mark]');
+
+      let goingHome = false;
+      const goHome = () => {
+        if (goingHome) return;
+        goingHome = true;
+        window.location.href = '/index.html';
+      };
+      skipLink.addEventListener('click', (e) => { e.preventDefault(); goHome(); });
+
+      let text = 'Selamat datang di Nifara Store';
+      let skipLabel = 'Lewati';
+
+      try {
+        const data = await loadSiteData();
+        const t = data.texts || {};
+        text = t.welcomeText || text;
+        skipLabel = t.welcomeSkip || skipLabel;
+        if (markEl) markEl.textContent = `${(t.brandMain || 'NIFARA')} ${(t.brandAccent || 'STORE')}`;
+      } catch (err) {
+        console.error(err);
+      }
+      skipLink.textContent = skipLabel;
+
+      // ── Animasi mengetik karakter demi karakter ──────────────────
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      cursor.innerHTML = '&nbsp;';
+
+      let i = 0;
+      const typeSpeed = 55; // ms per karakter
+
+      function typeNext() {
+        if (i <= text.length) {
+          typeTarget.textContent = text.slice(0, i);
+          typeTarget.appendChild(cursor);
+          i++;
+          setTimeout(typeNext, typeSpeed);
+        } else {
+          // Selesai mengetik — jeda sejenak lalu buka halaman utama otomatis
+          setTimeout(goHome, 1100);
+        }
+      }
+      typeNext();
+    })();
+  </script>
+</body>
+</html>
